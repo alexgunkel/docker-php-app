@@ -9,6 +9,8 @@ services:
       - "80:80"
     volumes:
       - ./public:/app
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/web
     restart: on-failure
   db:
     image: mariadb:latest
@@ -29,8 +31,14 @@ services:
       - "9090:8080"
     links:
       - db
+
   composer:
     image: composer
+    user: "1000"
+    volumes:
+      - ./public:/app
+  phpunit:
+    image: phpunit/phpunit
     user: "1000"
     volumes:
       - ./public:/app
