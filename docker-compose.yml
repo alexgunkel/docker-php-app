@@ -16,4 +16,21 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=very-secure
+    volumes:
+      - db:/var/lib/mysql
     restart: on-failure
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "90:80"
+      - "9090:8080"
+    links:
+      - db
+  composer:
+    image: composer
+    user: "1000"
+    volumes:
+      - ./public:/app
+
+volumes:
+  db:
