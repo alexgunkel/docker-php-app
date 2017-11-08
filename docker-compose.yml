@@ -2,15 +2,13 @@ version: '3'
 
 services:
   php:
-    image: webdevops/php-nginx-dev:7.1
+    build: php-apache/
     links:
       - db
     ports:
       - "80:80"
     volumes:
-      - ./public:/app
-    environment:
-      - WEB_DOCUMENT_ROOT=/app/web
+      - /srv/www/typo3:/var/www/html
     restart: on-failure
   db:
     image: mariadb:latest
@@ -34,14 +32,13 @@ services:
 
   composer:
     image: composer
-    user: "1000"
     volumes:
-      - ./public:/app
+      - /srv/www/typo3:/app
   phpunit:
     image: phpunit/phpunit
     user: "1000"
     volumes:
-      - ./public:/app
+      - /srv/www/typo3:/app
 
 volumes:
   db:
