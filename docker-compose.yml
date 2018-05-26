@@ -9,6 +9,8 @@ services:
       - "80:80"
     volumes:
       - /srv/www/typo3:/var/www/html
+    environment:
+      - TYPO3_CONTEXT=Development/Alexander
     restart: on-failure
   db:
     image: mariadb:10.1
@@ -29,16 +31,6 @@ services:
       - "9090:8080"
     links:
       - db
-
-  composer:
-    image: composer
-    volumes:
-      - /srv/www/typo3:/app
-  phpunit:
-    image: phpunit/phpunit
-    user: "1000"
-    volumes:
-      - /srv/www/typo3:/app
 
 volumes:
   db:
